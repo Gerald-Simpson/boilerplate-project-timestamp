@@ -28,6 +28,22 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:date", function (req, res) {
 	let theDate = new Date(req.params.date);
+	if (req.params.date.includes("-")) {
+		if (theDate != "Invalid Date") {
+			res.json({ unix: theDate / 1, utc: theDate.toUTCString() });
+		} else {
+			res.json({ error: "Invalid Date" });
+		}
+	} else if (Number.isInteger(parseInt(req.params.date))) {
+		let unixDate = new Date(req.params.date / 1000);
+		res.json({ unix: req.params.date, utc: unixDate.toUTCString() });
+	} else {
+		res.json({ error: "Invalid Date" });
+	}
+});
+
+app.get("/api/", function (req, res) {
+	let theDate = new Date();
 	res.json({ unix: theDate / 1, utc: theDate.toUTCString() });
 });
 
