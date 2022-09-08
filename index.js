@@ -28,7 +28,7 @@ app.get("/api/hello", function (req, res) {
 
 app.get("/api/:date", function (req, res) {
 	let theDate = new Date(req.params.date);
-	if (req.params.date.includes("-")) {
+	if (req.params.date.match(/[-,.]/)) {
 		if (theDate != "Invalid Date") {
 			res.json({ unix: theDate * 1, utc: theDate.toUTCString() });
 		} else {
